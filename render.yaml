@@ -1,12 +1,21 @@
 services:
   - type: web
-    name: openai-proxy
+    name: litellm-proxy
     runtime: image
+    plan: free
     image:
-      url: ghcr.io/berriai/litellm:main-stable
+      url: docker.litellm.ai/berriai/litellm-database:main-stable
     envVars:
       - key: PORT
-        value: 4000
+        value: "4000"
+      - key: DATABASE_URL
+        sync: false
+      - key: LITELLM_MASTER_KEY
+        sync: false
+      - key: STORE_MODEL_IN_DB
+        value: "True"
+      - key: LITELLM_LOCAL_MODEL_COST_MAP
+        value: "True"
     numInstances: 1
     healthCheckPath: /health/liveliness
-    autoDeploy: true
+    autoDeploy: false
